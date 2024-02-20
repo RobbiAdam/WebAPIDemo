@@ -16,7 +16,9 @@ namespace WebApp.Models
         public int? CarSeat { get; set; }
         [Required]
         public string? CarType { get; set; }
+
         public string? CarColor { get; set; }
+        [Required]
         public double? CarPrice { get; set; }
 
     }
