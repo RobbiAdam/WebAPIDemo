@@ -9,6 +9,7 @@ builder.Services.AddHttpClient("CarsApi", client =>
     client.BaseAddress = new Uri("https://localhost:7085/api/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IWebApiExecute, WebApiExecute>();
