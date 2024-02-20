@@ -1,0 +1,33 @@
+﻿@model List<Car>
+
+<h3>Cars</h3>
+<br />
+
+<table class="table table-dark table-striped">
+    <thead>
+        <tr>
+            <th>Brand</th>
+            <th>Name</th>
+            <th>Seats</th>
+            <th>Type</th>
+            <th>Color</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@car.CarBrand</td>
+                <td>@car.CarName</td>
+                <td>@car.CarSeat</td>
+                <td>@car.CarType</td>
+                <td>@car.CarColor</td>
+                <td>@(car.CarPrice.HasValue ? car.CarPrice.Value.ToString("c") : "")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br/>
+<a class="btn btn-primary" asp-controller="cars" asp-action="createcar">Create</a>
+
