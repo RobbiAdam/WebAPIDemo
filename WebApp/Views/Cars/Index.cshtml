@@ -1,8 +1,10 @@
 ﻿@model List<Car>
 
 <h3>Cars</h3>
+<div class="text-danger" asp-validation-summary="All"></div>
 <br />
-
+@if (Model != null)
+{
 <table class="table table-dark table-striped">
     <thead>
         <tr>
@@ -12,6 +14,9 @@
             <th>Type</th>
             <th>Color</th>
             <th>Price</th>
+            <td></td>
+            <td></td>
+
         </tr>
     </thead>
     <tbody>
@@ -24,10 +29,14 @@
                 <td>@car.CarType</td>
                 <td>@car.CarColor</td>
                 <td>@(car.CarPrice.HasValue ? car.CarPrice.Value.ToString("c") : "")</td>
+                <td><a class="btn btn-link" asp-controller="cars" asp-action="UpdateCar" asp-route-carid="@car.CarId">Edit</a></td>
+                <td><a class="btn btn-link" asp-controller="cars" asp-action="DeleteCar" asp-route-carid="@car.CarId">Delete</a></td>
             </tr>
         }
     </tbody>
 </table>
+}
+
 <br/>
 <a class="btn btn-primary" asp-controller="cars" asp-action="createcar">Create</a>
 
