@@ -3,14 +3,15 @@ using WebAPIDemo.Attributes;
 using WebAPIDemo.Data;
 using WebAPIDemo.Filters;
 using WebAPIDemo.Filters.ActionFilters;
+using WebAPIDemo.Filters.ActionFilters.Ver2;
 using WebAPIDemo.Filters.AuthFilters;
 using WebAPIDemo.Filters.ExceptionFilters;
 using WebAPIDemo.Models;
 using WebAPIDemo.Models.Repositories;
 
-namespace WebAPIDemo.Controllers
+namespace WebAPIDemo.Controllers.Ver2
 {
-    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
     [ApiController]
     [Route("api/v{v:apiversion}/[controller]")]
     [JWTTokenAuthFilter]
@@ -40,6 +41,7 @@ namespace WebAPIDemo.Controllers
 
         [HttpPost]
         [TypeFilter(typeof(Car_ValidateCarCreateFilterAttribute))]
+        [Car_EnsureCarDescriptionPresentFilter]
         [RequiredClaim("write", "true")]
         public IActionResult CreateCar([FromBody] Car car)
         {
@@ -53,6 +55,7 @@ namespace WebAPIDemo.Controllers
         [TypeFilter(typeof(Car_ValidateCarIdFilterAttribute))]
         [Car_ValidateCarUpdateFilter]
         [TypeFilter(typeof(Car_HandleUpdateExceptionFilterAttribute))]
+        [Car_EnsureCarDescriptionPresentFilter]
         [RequiredClaim("write", "true")]
         public IActionResult UpdateCar(int id, Car car)
         {
@@ -64,6 +67,7 @@ namespace WebAPIDemo.Controllers
             carToUpdate.CarType = car.CarType;
             carToUpdate.CarColor = car.CarColor;
             carToUpdate.CarPrice = car.CarPrice;
+            carToUpdate.CarDescription = car.CarDescription;
 
             db.SaveChanges();
 
