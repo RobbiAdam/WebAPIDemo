@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebAPIDemo.Attributes;
 using WebAPIDemo.Data;
 using WebAPIDemo.Filters;
 using WebAPIDemo.Filters.ActionFilters;
+using WebAPIDemo.Filters.AuthFilters;
 using WebAPIDemo.Filters.ExceptionFilters;
 using WebAPIDemo.Models;
 using WebAPIDemo.Models.Repositories;
@@ -10,7 +12,7 @@ namespace WebAPIDemo.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
+    [JWTTokenAuthFilter]
     public class CarsController : ControllerBase
     {
         private readonly ApplicationDBContext db;
@@ -21,6 +23,7 @@ namespace WebAPIDemo.Controllers
         }
 
         [HttpGet]
+        [RequiredClaim("read", "true")]
         public IActionResult GetCar()
         {
             return Ok(db.Cars.ToList());
@@ -28,6 +31,7 @@ namespace WebAPIDemo.Controllers
 
         [HttpGet("{id}")]
         [TypeFilter(typeof(Car_ValidateCarIdFilterAttribute))]
+        [RequiredClaim("read", "true")]
         public IActionResult GetCarByID(int id)
         {
             return Ok(HttpContext.Items["car"]);
@@ -35,6 +39,7 @@ namespace WebAPIDemo.Controllers
 
         [HttpPost]
         [TypeFilter(typeof(Car_ValidateCarCreateFilterAttribute))]
+        [RequiredClaim("write", "true")]
         public IActionResult CreateCar([FromBody] Car car)
         {
             this.db.Cars.Add(car);
@@ -47,6 +52,7 @@ namespace WebAPIDemo.Controllers
         [TypeFilter(typeof(Car_ValidateCarIdFilterAttribute))]
         [Car_ValidateCarUpdateFilter]
         [TypeFilter(typeof(Car_HandleUpdateExceptionFilterAttribute))]
+        [RequiredClaim("write", "true")]
         public IActionResult UpdateCar(int id, Car car)
         {
             var carToUpdate = HttpContext.Items["car"] as Car;
@@ -65,6 +71,7 @@ namespace WebAPIDemo.Controllers
 
         [HttpDelete("{id}")]
         [TypeFilter(typeof(Car_ValidateCarIdFilterAttribute))]
+        [RequiredClaim("delete", "true")]
         public IActionResult DeleteCar(int id)
         {
             var carToDelete = HttpContext.Items["car"] as Car;

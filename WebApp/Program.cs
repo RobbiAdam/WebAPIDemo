@@ -9,6 +9,21 @@ builder.Services.AddHttpClient("CarsApi", client =>
     client.BaseAddress = new Uri("https://localhost:7085/api/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
+
+builder.Services.AddHttpClient("AuthorityApi", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7085/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
+builder.Services.AddSession(option =>
+{
+    option.Cookie.HttpOnly = true;
+    option.IdleTimeout = TimeSpan.FromHours(1);
+    option.Cookie.IsEssential = true;
+});
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<IWebApiExecute, WebApiExecute>();
@@ -30,6 +45,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
