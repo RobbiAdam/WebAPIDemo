@@ -11,6 +11,7 @@ namespace WebAPIDemo.Models
         public string? CarBrand { get; set; }
         [Required]
         public string? CarName { get; set; }
+        public string? CarDescription { get; set; }
 
         [Car_EnsureCorrectSeating]
         public int? CarSeat { get; set; }
@@ -18,6 +19,11 @@ namespace WebAPIDemo.Models
         public string? CarType { get; set; }
         public string? CarColor { get; set; }
         public double? CarPrice { get; set; }
+
+        public bool ValidateDescription()
+        {
+            return !string.IsNullOrEmpty(CarDescription);
+        }
 
     }
 }

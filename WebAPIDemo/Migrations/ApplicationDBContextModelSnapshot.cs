@@ -37,11 +37,14 @@ namespace WebAPIDemo.Migrations
                     b.Property<string>("CarColor")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CarDescription")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CarName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("CarPrice")
+                    b.Property<double?>("CarPrice")
                         .HasColumnType("float");
 
                     b.Property<int?>("CarSeat")

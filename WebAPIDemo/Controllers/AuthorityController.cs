@@ -7,6 +7,8 @@ using System.Security.Claims;
 
 namespace WebAPIDemo.Controllers
 {
+    [ApiVersion("1.0")]
+    [ApiController]
     public class AuthorityController : ControllerBase
     {
         private readonly IConfiguration configuration;
@@ -21,7 +23,7 @@ namespace WebAPIDemo.Controllers
         {
             if (Authenticator.Authenticate(credential.ClientId, credential.secret))
             {
-                var expiresAt = DateTime.UtcNow.AddMinutes(1);
+                var expiresAt = DateTime.UtcNow.AddMinutes(5);
                 return Ok(new
                 {
                     access_token = Authenticator.CreateToken(credential.ClientId, expiresAt, configuration.GetValue<String>("SecretKey")),
